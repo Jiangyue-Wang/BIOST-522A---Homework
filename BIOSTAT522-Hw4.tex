@@ -1,0 +1,296 @@
+\documentclass[12pt,letterpaper, onecolumn]{exam}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[lmargin=71pt, tmargin=1.2in]{geometry}  %For centering solution box
+\lhead{\\}
+\rhead{\\}
+% \chead{\hline} % Un-comment to draw line below header
+\thispagestyle{empty}   %For removing header/footer from page 1
+
+\begin{document}
+
+\begingroup  
+    \centering
+    \LARGE BIOSTAT 522A\\
+    \LARGE Homework 4\\[0.5em]
+    \large \today\\[0.5em]
+    \large Jiangyue Wang\par
+    \large jyuewang@uw.edu\par
+    \large QERM, College of the Environment\par
+\endgroup
+\rule{\textwidth}{0.4pt}
+\pointsdroppedatright   %Self-explanatory
+\printanswers
+\renewcommand{\solutiontitle}{\noindent\textbf{Ans:}\enspace}   %Replace "Ans:" with starting keyword in solution box
+
+\begin{questions}
+
+    \question Problem 1
+    \begin{solution}
+    \begin{enumerate}
+        \item \begin{align*}
+            P(X-\mu>a) & = P(X>\mu+a) \\
+            & \leq \frac{E(X)}{\mu+a} \\
+            & = \frac{\mu}{\mu+a}
+        \end{align*}
+        \item \begin{align*}
+            P(X-\mu>a) & = P(X-\mu+b>a+b) \\
+            & = P((X-\mu+b)^2>(a+b)^2) \\
+            & \leq \frac{E((X-\mu+b)^2)}{(a+b)^2} \\
+            & = \frac{E((X-\mu)^2)+2bE(X-\mu)+E(b^2)}{(a+b)^2}\\
+            & = \frac{\sigma^2+b^2}{(a+b)^2}
+        \end{align*}
+        We let $f(b) = \frac{\sigma^2+b^2}{(a+b)^2}$, then we can take its derivative $f'(b) = \frac{2b(a+b)^2-2(a+b)(\sigma^2+b^2)}{(a+b)^4} = \frac{2b(a+b)-2(\sigma^2+b^2)}{(a+b)^3}$. To find the minimum value of $f(b)$, we let $f'(b) = 0$ where $b = \frac{\sigma^2}{a}$. When $b \leq \frac{\sigma^2}{a}$, $f(b) \leq 0$; when  $b \geq \frac{\sigma^2}{a}$, $f(b) \geq 0$. Thus, $f(b)$ has the minimum value when $b = \frac{\sigma^2}{a}$, $f(b) = \frac{\sigma^2}{a^2+\sigma^2}$.  Eventually, we have $P(X-\mu>a) \leq \frac{\sigma^2}{\sigma^2+a^2}$. 
+        \item When part 1 bound is sharper, \begin{align*}
+            \frac{\frac{\mu}{\mu+a}}{\frac{\sigma^2}{\sigma^2+a^2}} & \leq 1 \\
+            a \leq \frac{\sigma^2}{\mu}
+        \end{align*}
+        \item Let $Y-\mu = \mu-X$, and we have $Y = 2\mu-X$, $E(Y) = \mu$, $Var(Y) = Var(X) = \sigma^2$.        
+        \begin{align*}
+            P (\mu-X >a) & = P(Y-\mu>a) \\
+            & = P(Y-E(Y)>a) \\
+            & \leq \frac{Var(Y)}{Var(Y)+a^2} \\
+            & = \frac{\sigma^2}{\sigma^2+a^2}
+        \end{align*}
+        \begin{align*}
+            P(|\mu-X|>a) & = P(\mu-X>a) + P(X-\mu>a) \\
+            & = \frac{2\sigma^2}{\sigma^2+a^2}\\
+        \end{align*}
+        \item When part 4 is sharper,
+        \begin{align*}
+                \frac{\frac{2\sigma^2}{\sigma^2+a^2}}{\frac{\sigma^2}{a^2}} & \leq 1 \\
+                a^2 & \leq \sigma^2
+        \end{align*}
+    As $a$ and $\sigma$ are all positive, we have $a \leq \sigma$.
+    \end{enumerate}
+    \end{solution}
+
+    \question Problem 2
+    \begin{solution}
+        First we have $log(Y_n) = \frac{1}{n}\sum_{i=1}^n logX_i$,  \begin{align*}
+            E(logY_n) & = \frac{1}{n}E(\sum_{i=1}^n logX_i) \\
+            & = E(logX) \\
+            & = \int_0^1 logx \cdot 1 dx \\
+            & = xlogx |_0^1- \int_0^1 x\cdot \frac{1}{x}dx \\ 
+            & = -1
+        \end{align*}
+        \begin{align*}
+            Var(logY_n)& = \frac{1}{n^2}\sum_{i=1}^n logX_i \\
+            & = \frac{Var(X)}{n} \\
+            & = \frac{1}{12n}
+        \end{align*}
+        \begin{align*}
+            P(|logY_n-\mu| > \varepsilon ) & \leq \frac{var(logY_n)}{\varepsilon^2} \\
+            & = \frac{1}{12n\varepsilon^2} \rightarrow 0 ( n\rightarrow\infty)
+        \end{align*}
+        Thus, when $n \rightarrow \infty$, $logY_n \rightarrow E(logY_n) = -1$, $Y_n \rightarrow \frac{1}{e}$.
+    \end{solution}
+    
+    \question Problem 3
+    \begin{solution}
+        \begin{align*}
+            \hat{\sigma_n}^2 & = \frac{1}{n} \sum_{i=1}^n(X_i-\bar{X_n})^2 \\
+            & = \frac{1}{n}\sum_{i=1}^n X_i^2 - \bar{X_n}^2\\
+            E(\hat{\sigma_n}^2) & = \frac{1}{n}E(\sum_{i=1}^nX_i^2) - E(\bar{X_n}^2) \\
+            & = E(X_1^2) - E(\bar{X_n}^2) \\
+            & = Var(X_1) + E(X_1)^2 - Var(\bar{X_n}) - E(\bar{X_n})^2 \\
+            & = \sigma^2 - \frac{\sigma^2}{n} \\
+            & = \frac{(n-1)\sigma^2}{n} \\
+            Bias(\hat{\sigma_n}^2) & =  E(\hat{\sigma_n}^2) - \sigma^2 \\
+            & = -\frac{\sigma^2}{n} \\
+        \end{align*}
+        An unbiased estimator should be $\tilde{\sigma_n}^2 = \frac{1}{n-1} \sum_{i=1}^n(X_i-\bar{X_n})^2$. 
+        To show that this new estimator $\tilde{\sigma_n}$ is consistent, we consider using the continuous mapping theorem, because calculating the variance of sample variance is too computationally complicated. First, we can show that: 
+        $$\tilde{\sigma}_n = \frac{n}{n-1} \hat{\sigma}_n  \\ = \frac{n}{n-1}(\frac{1}{n}\sum_{i=1}^n X_i^2-(\frac{1}{n}\sum_{i=1}^n X_i)^2)$$
+        We know when $n \rightarrow \infty$,  $\frac{n}{n-1} \rightarrow 1$, and by WLLN, $\frac{1}{n}\sum_{i=1}^n X_i^2 \rightarrow E_F(X^2)$, $\frac{1}{n}\sum_{i=1}^n X_i \rightarrow E_F(X)$. Thus, $$\tilde{\sigma}_n = g(\frac{n}{n-1}, \frac{1}{n}\sum_{i=1}^n X_i^2, \frac{1}{n}\sum_{i=1}^n X_i) \rightarrow g(1,E_F(X^2), E_F(X)) = var(X)$$
+        Thus, $\tilde{\sigma}_n$ is consistent.
+    \end{solution}
+ \question Problem 4
+ \begin{solution}
+     \begin{enumerate}
+         \item The maximum of \(n\) i.i.d. \(\text{Uniform}(0, \theta)\) random variables, \(\tilde{\theta}_n = \max(X_1, X_2, \dots, X_n)\), has the CDF:
+            $P(\tilde{\theta}_n \leq u) = P(X_1 \leq u, X_2 \leq u,......, X_n \leq u) = (\frac{u}{\theta})^n$
+            \[
+            F_{\tilde{\theta}_n}(u) =
+            \begin{cases}
+            0, & u < 0, \\
+            \left(\frac{u}{\theta}\right)^n, & 0 \leq u \leq \theta, \\
+            1, & u > \theta.
+            \end{cases}
+            \]
+
+            The PDF is the derivative of the CDF:
+            \[
+            f_{\tilde{\theta}_n}(u) =
+            \begin{cases}
+            0, & u < 0, \\
+            n \frac{u^{n-1}}{\theta^n}, & 0 \leq u \leq \theta, \\
+            0, & u > \theta.
+            \end{cases}
+            \]
+        \item I used $x$ instead of $u$ from now on.
+        \paragraph{Bias of \(\hat{\theta}_n\):}
+            The expectation of \(\hat{\theta}_n\) is:
+            \[
+            E(\hat{\theta}_n) = 2 \cdot E(\bar{X}_n) = 2 \cdot \frac{E(X_i)}{n} = 2 \cdot \frac{\theta}{2} = \theta.
+            \]
+            Thus, \(\hat{\theta}_n\) is \textbf{unbiased}.
+
+            \paragraph{         Bias of \(\tilde{\theta}_n\):}
+                        The expectation of \(\tilde{\theta}_n\) is:
+            \[
+            E(\tilde{\theta}_n) = \int_0^\theta x f_{\tilde{\theta}_n}(x) \, dx = \frac{n}{\theta^n} \int_0^\theta x^n \, dx.
+            \]
+            \[
+            E(\tilde{\theta}_n) = \frac{n}{\theta^n} \cdot \frac{\theta^{n+1}}{n+1} = \frac{n \theta}{n+1}.
+            \]
+            \[
+            Bias(\tilde{\theta}_n) = E(\tilde{\theta}_n) - \theta = -\frac{\theta}{n+1}.
+            \]
+        \item \paragraph{Variance of \(\hat{\theta}_n\):}
+            \[
+            Var(\hat{\theta}_n) = 4 \cdot Var(\bar{X}_n) = 4 \cdot \frac{Var(X_i)}{n}.
+            \]
+                    For \(X_i \sim \text{Uniform}(0, \theta)\), \(Var(X_i) = \frac{\theta^2}{12}\). Thus:
+            \[
+            Var(\hat{\theta}_n) = \frac{\theta^2}{3n}.
+            \]
+            
+            \paragraph{         Variance of \(\tilde{\theta}_n\):}
+            \[
+            Var(\tilde{\theta}_n) = E(\tilde{\theta}_n^2) - (E(\tilde{\theta}_n))^2.
+            \]
+            \[
+            \mathbb{E}[\tilde{\theta}_n^2] = \frac{n}{\theta^n} \int_0^\theta x^{n+1} \, dx = \frac{n}{\theta^n} \cdot \frac{\theta^{n+2}}{n+2} = \frac{n \theta^2}{n+2}.
+            \]
+                    The variance is:
+            \[
+            Var(\tilde{\theta}_n) = \frac{n \theta^2}{n+2} - \left(\frac{n \theta}{n+1}\right)^2.
+            \]
+        \item\paragraph{MSE of \(\hat{\theta}_n\):}
+            Since \(\hat{\theta}_n\) is unbiased:
+            \[
+           MSE(\hat{\theta}_n) = \mathrm{Var}(\hat{\theta}_n) = \frac{\theta^2}{3n}.
+            \]
+            The MSE of \(\hat{\theta}_n\) decreases to 0 as \(n \to \infty\), so \(\hat{\theta}_n\) is consistent.
+        \paragraph{ MSE of \(\tilde{\theta}_n\):}
+            \[
+            MSE(\tilde{\theta}_n) = Var(\tilde{\theta}_n) + (Bias(\tilde{\theta}_n))^2.
+            \]
+            \[
+            MSE(\tilde{\theta}_n) = \frac{n \theta^2}{n+2} - \left(\frac{n \theta}{n+1}\right)^2 + \left(-\frac{\theta}{n+1}\right)^2 = \frac{2\theta^2}{(n+2)(n+1)^2}
+            \]
+            Similarly, the MSE of \(\tilde{\theta}_n\) decreases to 0 as \(n \to \infty\), so \(\tilde{\theta}_n\) is also consistent.
+     \end{enumerate}
+        
+ \end{solution}
+ 
+ \question Problem 5
+ \begin{solution}
+     \begin{enumerate}
+     \item \[
+        q = 0.5p + 0.5 \cdot 0.3 = 0.5p + 0.15.
+        \]
+     \item \[
+        E(\hat{p}_n) = 2 E(\bar{Y}_n)- 0.3.
+        \]
+        \[
+        E(\bar{Y}_n) = \frac{1}{n} \sum_{i=1}^n E(Y_i) = E(Y_1) = q,
+        \]
+
+        Thus,
+        \[
+        E(\hat{p}_n) = 2q - 0.3 = 2(0.5p + 0.15) - 0.3 = p.
+        \]
+
+        Therefore, \(\hat{p}_n\) is an \textbf{unbiased estimator} for \(p\).
+        The variance of \(\hat{p}_n\) is:
+        \[
+        Var(\hat{p}_n) = 4 \cdot Var(\bar{Y}_n).
+        \]
+
+        The variance of \(\bar{Y}_n\) is:
+        \[
+        Var(\bar{Y}_n) = \frac{Var(Y_i)}{n}.
+        \]
+
+        Since \(Y_i\) is a Bernoulli random variable with \(P(Y_i = 1) = q\), we have:
+        \[
+       Var(Y_i) = q(1 - q).
+        \]
+        \[
+        Var(\bar{Y}_n) = \frac{q(1 - q)}{n}.
+        \]
+
+        Thus,
+        \[
+        Var(\hat{p}_n) =\frac{4q(1-q)}{n}=  \frac{4}{n} \cdot (0.5p + 0.15)(0.85 - 0.5p) = MSE(\hat{p}_n).
+        \]
+
+
+        To show consistency, we observe that the MSE of \(\hat{p}_n\) approaches 0 as \(n \to \infty\):
+        \[
+        \lim_{n \to \infty} MSE(\hat{p}_n) = \lim_{n \to \infty} \frac{4}{n} \cdot (0.5p + 0.15)(0.85 - 0.5p) = 0.
+        \]
+
+        Thus, \(\hat{p}_n\) is a \textbf{consistent estimator} for \(p\).  \\
+        \textbf{ Problem}: This estimator may perform badly (have large variance) when n is small. This estimator's variance will also reach a maximum when p takes a certain value (in this case, $p=0.7$)
+     \item \[
+        E(\tilde{p}_n) = E\left(\frac{1}{n} \sum_{i=1}^n X_i\right)
+        \]
+        \[
+        E(\tilde{p}_n) = \frac{1}{n} \sum_{i=1}^n E(X_i)
+        \]
+        
+        Since the \(X_i\) are i.i.d., \(E(X_i) = p\). Thus:
+        \[
+        E(\tilde{p}_n) = \frac{1}{n} \cdot n \cdot p = p.
+        \]
+        
+        Therefore, \(\tilde{p}_n\) is an \textbf{unbiased estimator} of \(p\).
+        
+        \paragraph{Consistency:}
+        \[
+        \mathrm{MSE}(\tilde{p}_n) = \mathrm{Var}(\tilde{p}_n) + [\text{Bias}(\tilde{p}_n)]^2.
+        \]
+        
+        Since \(\tilde{p}_n\) is unbiased, the bias is zero:
+        \[
+        \mathrm{MSE}(\tilde{p}_n) = \mathrm{Var}(\tilde{p}_n).
+        \]
+        
+        The variance of \(\tilde{p}_n\) is:
+        \[
+        \mathrm{Var}(\tilde{p}_n) = \frac{\mathrm{Var}(X_i)}{n}.
+        \]
+        
+        For \(X_i\), \(\mathrm{Var}(X_i) = p(1-p)\). Thus:
+        \[
+        \mathrm{Var}(\tilde{p}_n) = \frac{p(1-p)}{n}.
+        \]
+        
+        As \(n \to \infty\), \(\mathrm{Var}(\tilde{p}_n) \to 0\). Therefore:
+        \[
+        \lim_{n \to \infty} \mathrm{MSE}(\tilde{p}_n) = 0.
+        \]
+        
+        Since the MSE approaches 0 as \(n\) increases, \(\tilde{p}_n\) is a \textbf{consistent estimator} of \(p\).
+             \item \begin{align*}
+                 r_n & = \frac{\frac{4}{n} \cdot (0.5p + 0.15)(0.85 - 0.5p)}{ \frac{p(1-p)}{n}} \\
+                 & = 1+\frac{0.8q+0.39}{-4q^2+3.2q-0.39} >1
+             \end{align*}
+            For \(p = 0.3\):
+        \begin{align*}
+        q &= 0.5(0.3) + 0.15 = 0.3, \\
+        \end{align*}
+        \[
+        r_n = 4 \cdot \frac{(0.3)(0.7)}{(0.3)(0.7)} = 4.
+        \]
+        
+        \paragraph{Discussion of Trade-offs:} \\
+        - The randomized response estimator \(\hat{p}_n\) protects respondent privacy but incurs higher variance due to randomization.
+        - The direct response estimator \(\tilde{p}_n\) has lower variance but assumes truthful responses, which may lead to biased results if respondents lie.
+     \end{enumerate}
+     \end{solution}
+\end{questions}
+\end{document}

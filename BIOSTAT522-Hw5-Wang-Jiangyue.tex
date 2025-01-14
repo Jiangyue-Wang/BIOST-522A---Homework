@@ -1,0 +1,160 @@
+\documentclass[12pt,letterpaper, onecolumn]{exam}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[lmargin=71pt, tmargin=1.2in]{geometry}  %For centering solution box
+\lhead{\\}
+\rhead{\\}
+% \chead{\hline} % Un-comment to draw line below header
+\thispagestyle{empty}   %For removing header/footer from page 1
+
+\begin{document}
+
+\begingroup  
+    \centering
+    \LARGE BIOSTAT 522A\\
+    \LARGE Homework 5\\[0.5em]
+    \large \today\\[0.5em]
+    \large Jiangyue Wang\par
+    \large jyuewang@uw.edu\par
+    \large QERM, College of the Environment\par
+\endgroup
+\rule{\textwidth}{0.4pt}
+\pointsdroppedatright   %Self-explanatory
+\printanswers
+\renewcommand{\solutiontitle}{\noindent\textbf{Ans:}\enspace}   %Replace "Ans:" with starting keyword in solution box
+
+\begin{questions}
+
+    \question Problem 1
+    \begin{solution}
+        \begin{enumerate}
+            \item I start with 3 estimators: $\hat{\mu_X} = \overline{X_n},\hat{\mu_Y} = \overline{Y_n}, \hat{\mu_{XY}} = \overline{X_nY_n}$ for $\mu_X, \mu_Y, \mu_{XY}$, where $\mu_{XY} = E(XY)$ . Let $s_{XY} = \mu_{XY} - \mu_X\mu_Y$ \\
+            \begin{align*}
+                \sqrt{n} \begin{pmatrix}
+                    \hat{\mu_X} - \mu_X \\
+                    \hat{\mu_Y} - \mu_Y \\
+                    \hat{\mu_{XY}} - \mu_{XY} \\
+                \end{pmatrix}  & = \sqrt{n}n^{-1}\sum_{i=1}^n \begin{pmatrix}
+                    D_{\mu_X}(X_i) \\
+                    D_{\mu_Y}(Y_i) \\
+                    D_{\mu_{XY}}(X_iY_i) \\
+                \end{pmatrix} + \begin{pmatrix}
+                    0 \\
+                    0 \\
+                    0 \\
+                \end{pmatrix} \\
+                & = \sqrt{n}n^{-1}\sum_{i=1}^n \begin{pmatrix}
+                    X_i - \mu_X \\
+                    Y_i - \mu_Y \\
+                     X_iY_i - \mu_{XY} \\
+                \end{pmatrix} + \begin{pmatrix}
+                    0 \\
+                    0 \\
+                    0 \\
+                \end{pmatrix}
+            \end{align*}
+            Jacobian matrix of $s_{XY}$ is \begin{pmatrix}
+                -\mu_Y \\
+                -\mu_X \\
+                1 \\
+            \end{pmatrix} 
+            
+        
+            \begin{align*}
+            \xi_i & = \begin{pmatrix}
+                 -\mu_Y & -\mu_X &  1 \\
+            \end{pmatrix} \begin{pmatrix}
+                    X_i - \mu_X \\
+                    Y_i - \mu_Y \\
+                     X_iY_i - \mu_{XY} \\
+                    \end{pmatrix} \\
+                & = (Y_i-\mu_Y)(X_i-\mu_X)+\mu_X\mu_Y-\mu_{XY} \\    
+            \end{align*}
+            Thus, $\sqrt{n}(\hat{c_n}-c) = \sqrt{n}n^{-1}\sum_{i=1}^n \xi_i = \sqrt{n}(n^{-1}\sum_{i=1}^n (Y_i-\mu_Y)(X_i-\mu_X)-c) \rightarrow  N(0, Var(\xi_i))$. 
+        \item  \begin{align*}
+        Var(\xi_i) & = Var((Y_i-\mu_Y)(X_i-\mu_X)+\mu_X\mu_Y-\mu_{XY}) \\
+        & = E[((Y_i-\mu_Y)(X_i-\mu_X)+\mu_X\mu_Y-\mu_{XY})^2] \\
+        & = E[(XY-E(XY)-XE(Y)-YE(X)+2E(X)E(Y))^2] \\
+            \end{align*} 
+        \item  Jacobian matrix of $r$ is $\begin{pmatrix}
+            \frac{1}{\mu_Y} \\
+            -\frac{\mu_X}{\mu_Y^2}\\
+        \end{pmatrix}$
+        \begin{align*}
+            \sqrt{n} \begin{pmatrix}
+                \overline{X_n} - \mu_X \\
+                \overline{Y_n} - \mu_Y \\
+            \end{pmatrix} &  = \sqrt{n} \cdot n^{-1} \sum_{i=1}^n \begin{pmatrix}
+                D_{\mu_X} \\
+                D_{\mu_Y} \\
+            \end{pmatrix} + \begin{pmatrix}
+                0 \\
+                0 \\
+            \end{pmatrix} \\
+            & = \sqrt{n} \cdot n^{-1} \sum_{i=1}^n \begin{pmatrix}
+                \frac{1}{\mu_Y} &
+            -\frac{\mu_X}{\mu_Y^2} \\
+            \end{pmatrix}
+            \begin{pmatrix}
+                \overline{X_i} - \mu_X \\
+                \overline{Y_i} - \mu_Y \\
+            \end{pmatrix} + \begin{pmatrix}
+                0 \\
+                0 \\
+                \end{pmatrix} \\
+            &  = \sqrt{n} \cdot n^{-1} \sum_{i=1}^n \frac{\mu_Y X_i-\mu_X Y_i}{\mu_Y^2} \\
+        \end{align*} 
+        $\xi_i = \frac{\mu_Y X_i-\mu_X Y_i}{\mu_Y^2}$
+        \item \begin{align*}
+            Var(\xi_i)& = Var(\frac{\mu_Y X_i-\mu_X Y_i}{\mu_Y^2}) \\
+            & = E[(\frac{\mu_Y X_i-\mu_X Y_i}{\mu_Y^2})^2] \\
+            & = E[(\frac{E(Y)X-E(X) Y}{E(Y)^2})^2]
+        \end{align*}
+    \end{enumerate}
+    
+    \end{solution}
+
+    \question Problem 2
+    \begin{solution}
+        \begin{enumerate}
+            \item $\sqrt{n}(\hat{\theta_n}-\theta) = \sqrt{n}n^{-1}\sum_{i=1}^n (2X_i-\theta) \rightarrow N(0, Var(2X_i-\theta))$. \\ 
+            $Var(2X_i-\theta) = Var(2X) = 4Var(X) = \frac{\theta^2}{3}$.
+            \item $I_n = (\hat{\theta_n}-\Phi^{-1}(0.975)\frac{\hat{\theta_n}}{\sqrt{3n}},\hat{\theta_n}+\Phi^{-1}(0.975)\frac{\hat{\theta_n}}{\sqrt{3n}})$, where $\hat{\theta_n} = \sum_{i=1}^n 2X_i$
+            \item From Homework 4, we already know that $P(\tilde{\theta_n} \leq u) = (\frac{u}{\theta})^n$. \\Now we have $P(n(\theta-\tilde{\theta_n}) \leq y) = P (\tilde{\theta_n} \geq \theta - \frac{y}{n}) = 1-P(\tilde{\theta_n} \leq \theta - \frac{y}{n}) = 1 - (\frac{\theta-\frac{y}{n}}{\theta})^n$.\\
+        As $n \rightarrow \infty, P(n(\theta-\tilde{\theta_n}) \leq y) \rightarrow 1-e^{-\frac{y}{\theta}}$, thus showing the CDF of exponential distribution with parameter $\theta$.
+        \item  As $n(\theta-\tilde{\theta_n}) \sim exp(\theta)$, we have $n(1-\frac{\tilde{\theta_n}}{\theta}) \sim exp(1)$.\\ $L_n = \frac{\tilde{\theta_n}}{1-\frac{\Phi(\alpha/2)}{n}} =  \frac{\tilde{\theta_n}}{1-\frac{a}{n}}$, $U_n =  \frac{\tilde{\theta_n}}{1-\frac{\Phi(1-\alpha/2)}{n}} =  \frac{\tilde{\theta_n}}{1-\frac{b}{n}}$. \\Thus, $I_n = (\frac{\tilde{\theta_n}}{1-\frac{a}{n}}, \frac{\tilde{\theta_n}}{1-\frac{b}{n}})$.
+        \item Length in (2) is: $2 \cdot \Phi^{-1}(0.975)\frac{\hat{\theta_n}}{\sqrt{3n}}$. \\ Length in (4) is $\tilde{\theta_n}\frac{n(b-a)}{(n-a)(n-b)}$. \\ As $n\rightarrow\infty$, length in (2) decreases with a rate of $\frac{1}{\sqrt{n}}$, while (4) decreases with a rate of $\frac{1}{n}$. \\ Thus, confidence interval of (4) is narrower, I prefer (4).
+        \end{enumerate}
+    \end{solution}
+    \question Problem 3
+    \begin{solution}
+        \begin{enumerate}
+            \item Firstly, as $E(\overline{X_n})=\mu_X = \lambda$, $E(\hat{\theta_n}) = E(e^{-\overline{X_n}}) =E(e^{-\lambda}) = \theta$.  Now we use first order Taylor expansion of $e^{-\overline{X_n}}$ at $\lambda$ (I know how to use delta method here $g(x) = e^{-x}$ and take the derivative at $x=\lambda$, just don't want to type again:)
+            \begin{align*}
+                \sqrt{n}(\hat{\theta_n}-\theta) & = \sqrt{n}(e^{-\overline{X_n}}-e^{-\lambda}) \\
+                & = \sqrt{n}(e^{-\lambda}-e^{-\lambda}(\overline{X_n}-\lambda)-e^{-\lambda}) \\
+                & = \sqrt{n} n^{-1} \sum_{i=1}^n e^{-\lambda}(\lambda-X_i) \\
+                & \sim N(0, Var(e^{-\lambda}(\lambda-X_i)))
+            \end{align*}
+            Influence function is $e^{-\lambda}(\lambda-X_i)$.
+        \item $Var(e^{-\lambda}(\lambda-X_i)) = e^{-2\lambda}Var(X) = e^{-2\lambda}\lambda$.\\
+        $I_n =  (\hat{\theta_n} - \Phi(0.975)\frac{e^{-\overline{X_n}}\sqrt{\overline{X_n}}}{\sqrt{n}},\hat{\theta_n} +  \Phi(0.975)\frac{e^{-\overline{X_n}}\sqrt{\overline{X_n}}}{\sqrt{n}})$ .
+        \item $Y \sim Bernoulli(e^{-\lambda})$. \\
+        $\sqrt{n}(\tilde{\theta_n}-\theta) = \sqrt{n}\frac{1}{n}\sum_{i=1}^n (Y_i-\theta) \sim N(0, Var(Y_i-\theta))$, influence function is $Y_i-\theta$. \\
+        $Var(Y_i-\theta) = Var(Y) = e^{-\lambda} (1-e^{-\lambda})$, $I_n = (\tilde{\theta_n}-\Phi(0.975)\frac{\sqrt{\overline{Y_n}(1-\overline{Y_n})}}{\sqrt{n}}, \tilde{\theta_n}+\Phi(0.975)\frac{\sqrt{\overline{Y_n}(1-\overline{Y_n})}}{\sqrt{n}})$.
+        \item Length in (2): $2\Phi(0.975)\frac{e^{-\overline{X_n}}\sqrt{\overline{X_n}}}{\sqrt{n}}$, length in (4): $2\Phi(0.975)\frac{\sqrt{\overline{Y_n}(1-\overline{Y_n})}}{\sqrt{n}}$. Replace estimators with $\lambda$ and we will see that standard deviation term in (2) is $\sqrt{\lambda e^{-2\lambda}}$, in (4) is $\sqrt{e^{-\lambda}(1-e^{-\lambda})}$. Compare them two, let's say$\lambda e^{-2\lambda} < e^{-\lambda}(1-e^{-\lambda})$,   and we then have $ e^{-\lambda} < \frac{1}{\lambda+1}$, which is always true when $\lambda > 0$ and they are equal when $\lambda = 0$ . So I prefer (2).
+        \end{enumerate}
+        
+    \end{solution}
+    \question Problem 4
+    \begin{solution}
+        $\overline{X_n} \sim N(\mu, \frac{\sigma^2}{n})$, so $\frac{\overline{X_n}-\mu}{\sigma/\sqrt{n}} \sim N(0,1)$. We then replace $\sigma$ with its unbiased estimator $S$: $T = \frac{\overline{X_n}-\mu}{S/\sqrt{n}} \sim t_{n-1}$ . 
+        $$P(-t_{n-1, 1-\alpha/2} \leq  \frac{\overline{X_n}-\mu}{S/\sqrt{n}} \leq t_{n-1, 1-\alpha/2}) = 1-\alpha$$
+        $$P(\overline{X_n}-\frac{S}{\sqrt{n}}t_{n-1, 1-\alpha/2} \leq  \mu \leq \overline{X_n}+\frac{S}{\sqrt{n}}t_{n-1, 1-\alpha/2}) = 1-\alpha$$
+        $$I_n = (\overline{X_n}-\frac{S}{\sqrt{n}}t_{n-1, 1-\alpha/2}, \overline{X_n}+\frac{S}{\sqrt{n}}t_{n-1, 1-\alpha/2})$$
+    \end{solution}
+\end{questions}
+
+
+
+\end{document}

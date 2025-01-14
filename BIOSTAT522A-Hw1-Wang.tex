@@ -1,0 +1,178 @@
+\documentclass[12pt,letterpaper, onecolumn]{exam}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[lmargin=71pt, tmargin=1.2in]{geometry}  %For centering solution box
+\lhead{\\}
+\rhead{\\}
+% \chead{\hline} % Un-comment to draw line below header
+\thispagestyle{empty}   %For removing header/footer from page 1
+
+\begin{document}
+
+\begingroup  
+    \centering
+    \LARGE BIOSTAT 522A\\
+    \LARGE Homework 1\\[0.5em]
+    \large \today\\[0.5em]
+    \large Jiangyue Wang\par
+    \large jyuewang@uw.edu\par
+    \large QERM, College of the Environment\par
+\endgroup
+\rule{\textwidth}{0.4pt}
+\pointsdroppedatright   %Self-explanatory
+\printanswers
+\renewcommand{\solutiontitle}{\noindent\textbf{Ans:}\enspace}   %Replace "Ans:" with starting keyword in solution box
+
+\begin{questions}
+
+    \question Problem 1
+    
+    \begin{solution}
+           \begin{enumerate}
+               \item Suppose any event $A$, then according to Axiom 1 and Axiom 2 we have 
+               $$0 \leq P(A) \leq 1$$ 
+               Given that there is no element in $\emptyset$, it is obvious that $A \cap \emptyset = \emptyset$ and $A \cup \emptyset = A$, so $A$ and $\emptyset$ are mutually exclusive, then according to Axiom 3 we have 
+               $$P(A) = P(A \cup \emptyset) = P(A) + P(\emptyset)$$
+               Thus, $P(\emptyset) = 0$. $\blacksquare$
+               
+               \item As $A \subset B$, $$B = A \cup (B \setminus A)$$
+               Also, $A$ and $(B \setminus A)$ are disjoint. Then according to Axiom 3, $$P(B) = P(A) + P(B \setminus A)$$ 
+               Then we have $$P(B) - P(A) = P(B \setminus A)$$
+               According to Axiom 1, $P(B \setminus A) \geq 0$. Thus, $$P(B) - P(A) = P(B \setminus A) \geq 0$$
+               Finally we have $P(B) \geq P(A)$. $\blacksquare$
+               
+               \item This is equal to prove $$P(A) + P(B) -P(A \cap B) \leq 1$$
+               According to Property 4 mentioned in the problem, we have $$P(A) + P(B) -P(A \cap B) = P(A \cup B)$$
+               Thus, we are proving that $P(A \cup B) \leq 1$.\\
+               As $A \cup B \subseteq \Omega$, according to the above property proved and Axiom 2, we finally have $P(A \cup B) \leq P(\Omega) = 1$. $\blacksquare$
+
+               \item This is equal to prove $$P(A) + P(B) -P(A \cup B) \geq 0$$
+               According to Property 4 mentioned in the problem, we have $$P(A) + P(B) -P(A \cup B) = P(A \cap B)$$
+               Thus, combining these two formulae together, we are proving that $$P(A \cap B) \geq 0$$
+               According to Axiom 1, $$P(A \cap B) \geq 0$$ holds. $\blacksquare$
+
+               \item As $A \subset B$, $$B = A \cup (B \setminus A)$$
+               Also, $A$ and $(B \setminus A)$ are disjoint. Then according to Axiom 3, $$P(B) = P(A) + P(B \setminus A)$$ 
+               Shift items in this formula, we then have $P(B \setminus A) = P(B) - P(A)$. $\blacksquare$
+           \end{enumerate}
+    \end{solution}
+
+    \question Problem 2
+    \begin{solution}
+        \begin{enumerate}
+            \item We can first calculate test result probabilities based on sensitivity and specificity. Here, I define event $D$ as "the person having XXX", $ND$ as "the person not having XXX", $PS$ as "test result positive", $N$ as "test result negative". \\
+            $P(D) = 0.03\%$ \\
+            $P(ND) = P(D^C) = 1 - P(D) = 1 - 0.03\% = 99.97\%$ \\
+            $P(PS | D) = 96\%$ \\
+            $P(N | D) = 1 - P(PS | D) = 1 - 96\% = 4\%$ \\
+            $P(N | ND) = 93\%$ \\
+            $P(PS | ND) = 1 - P(N | ND) = 1 - 93\% = 7\%$ \\
+            Thus, according to the bayes rule, we can calculate
+            \begin{align*}
+                P(D | N) & = \frac{P(N|D)P(D)}{P(N)} \\
+                & = \frac{P(N|D)P(D)}{P(N|D)P(D) + P(N|D^C)P(D^C)} \\
+                & = \frac{P(N|D)P(D)}{P(N|D)P(D) + P(N|ND)P(ND)} \\
+                & = \frac{4\% \times 0.03\%}{4\% \times 0.03\% + 93\% \times 99.97\%} \\
+                & = 1.29 \times 10^{-5}
+            \end{align*}
+
+            \item The condition here is first test positive, second test negative. we can denote this condition as $T$. \\
+            $P(T|D) = P (PS|D) \times P(N|D) = 96\% \times 4\% =  0.0384$  \\
+            $P(T|ND) = P (PS|ND) \times P(N|ND) = 7\% \times 93\% =  0.0651$ \\
+            Thus, we can calculate: \\
+            \begin{align*}
+                P(D | T) & =  \frac{P(T|D)P(D)}{P(T)} \\
+                & = \frac{P(T|D)P(D)}{P(T|D)P(D) + P(T|ND)P(ND)} \\
+                & = \frac{0.384 \times 0.03\%}{0.384 \times 0.03\% + 0.0651 \times 99.97\%} \\
+                & = 0.000177
+            \end{align*}
+
+            \item We denote the event "k times positive tests" as $kPS$. Thus,\\
+            $P(kPS | D) = P(PS \cap PS \cap ...... \cap PS | D)$ \\
+            As test results are mutually independent, \\
+            $P(kPS | D) = P(PS | D)^k = (96\%)^k$ \\
+            Similarly, we have $P(kPS | ND) = P(PS | ND)^k = (7\%)^k$. \\
+            To have diseased probability conditional on k times positive test results larger than $\frac{2}{3}$,
+            \begin{align*}
+                P(D | kPS) & = \frac{P(kPS|D)P(D)}{P(kPS)} \\
+                & = \frac{P(kPS|D)P(D)}{P(kPS|D)P(D) + P(kPS|ND)P(ND)} \\
+                & = \frac{96\%^k \times 0.03\%}{96\%^k \times 0.03\% + 7\%^k \times 99.97\%} \\
+                & \geq \frac{2}{3} \\
+                k & \geq 3.3625
+            \end{align*}
+            As $k$ has to be an integer to be the time for tests, $k_{min} = 4$.
+
+            \item The event of diseased person being diagnosed incorrectly is the complement of diseased person being diagnosed correctly, which is equivalent to getting positive test results four times in a row. We denote the event of "diseased person being diagnosed incorrectly" as $DI$. Thus, 
+            \begin{align*}
+                P(DI) & = 1 - P(DI^C) \\
+                & = 1 - P(kPS|D), k = 4 \\
+                & = 1 - P(PS | D)^k, k = 4 \\
+                & = 1- (96\%)^k, k = 4 \\
+                & = 1 - (96\%)^4 \\
+                & = 0.15065
+            \end{align*}
+            
+        \end{enumerate}
+        
+    \end{solution}
+
+    \question Problem 3
+    \begin{solution}
+        For 3 positions, there could be 4 situations of these positions filled by the candidate pool with 10 men and 10 women: 3 men; 2 men and 1 woman; 1 men and 2 women; 3 women. If there exists a selection bias against women, that would refer to the situations of 3 men, 2 men and 1 woman. \\
+        $P(3 men) = \frac{\binom{10}{3}}{\binom{20}{3}} = 0.1053$ \\
+        $P(2 men 1 woman) = \frac{\binom{10}{2} + \binom{10}{1}}{\binom{20}{3}} = 0.3947$ \\
+        $P(3 men) + P(2 men 1 woman) = 0.1053 + 0.3947 = 0.5 $ \\
+        From the calculation above, the chance of resulting in 2 men and 1 woman is 0.3947, and there may be a more extreme case of 3 men with a probability of 0.1053, which is not impossible.We can see that even selected by chance, we have a probability of 0.5 when there is less women than men, and thus 0.5 for less men than women.  Therefore, I am quite confident to say that our selection is a normal result and does not show any bias against women.  
+    \end{solution}
+
+    \question Problem 4
+    \begin{solution}
+        Yes, it is possible.\\
+        We know that $P(C|A) > P(C)$ and $P(C|B) > P(C)$, according to Bayes rule, these two formulae are equivalent to $P(A|C) > P(A)$ and $P(B|C) > P(B)$. If we expand these formulae more, we will have $P(A|C)(P(C)+P(C^C)) > P(A|C)P(C) + P(A|C^C)P(C^C)$, and we will finally get $P(A|C) > P(A|C^C)$. Similarly we will have $P(B|C) > P(B|C^C)$. And we are trying to find that $P(A \cap B|C)<P(A \cap B|C^C)$. In other words, while $A$ and $B$ are both more likely given $C$, we wanted to know if there exist cases when $A \cap B$ is more likely given $C^C$ rather than $C$. \\
+        If this is in a dice example, assume we have two dices, the first one is labeled with 1,2,5,11,12,14, and the second one is labeled with 2,4,11,13,15,17. Let $C$ be we choose to roll the first dice, $C^C$ is then the second dice. Let $A$ be we have an even number after one roll, and $B$ be we have a number less than 10 after one roll. Thus,
+        \begin{align*}
+            P(C) & = 0.5 \\
+            P(C|A) & = \frac{P(A|C)P(C)}{P(A|C)P(C)+P(A|C^C)P(C^C)} \\
+            & = \frac{0.5 \times 0.5}{0.5 \times 0.5+\frac{1}{3} \times \frac{1}{3}} \\
+            & = 0.6923 > P(C) \\
+            P(C|B) & = 0.6923 > P(C) \\
+            P(C|A \cap B) & = \frac{P(A\cap B|C)P(C)}{P(A\cap B|C)P(C)+P(A\cap B|C^C)P(C^C)} \\
+            & = \frac{\frac{1}{6} \times 0.5}{\frac{1}{6} \times 0.5 + \frac{1}{3} \times 0.5} \\
+            & = \frac{1}{3} < P(C)
+        \end{align*}
+        
+        I try to provide parallel evidences in a robbery setting, but not sure if it's suitable enough. Let $C$ be John conducted the crime. Let's assume a jewelry shop was robbed. Let $A$ be a someone seeing John in the crowd after robbery happened. Let $B$ be someone seeing John wearing a new ring. Clearly these evidences contribute to more guilt of John, respectively. However, when combined together, this makes John more likely a normal jewelry shop customer trying to figure out what's going on in the shop after purchasing, rather than a criminal wearing the jewelry and still stay on the scene.
+        
+    \end{solution}
+
+    \question Problem 5
+    \begin{solution}
+        $P(know) = p$, $P(don't know) = P(know^C) = 1-p$ \\
+        $P(correct | know) = 1$ \\
+        $P(correct | don't know) = \frac{1}{n}$, as the student will randomly choose from the n choices. \\
+        According to the Bayes rule, we have
+        \begin{align*}
+            P(know|correct) & = \frac{P(correct|know)P(know)}{P(correct|know)P(know) + P(correct|don't know)P(don't know)} \\
+            & = \frac{p}{p+\frac{1}{n} \times (1-p)} \\
+            & = \frac{np}{(n-1)p+1}
+        \end{align*}
+        Then we compare $P(know|correct)$ with $P(know)$,
+        \begin{align*}
+            P(know|correct) - P(know) & =  \frac{np}{(n-1)p+1} - p \\
+            & = \frac{(n-1)p(1-p)}{(n-1)p+1}
+        \end{align*}
+        As $0 \leq p \leq1$ and $n>1$, we then have $P(know|correct) - P(know) \geq 0$. That is, this probability is always greater than or equal to $p$.
+        
+    \end{solution}
+
+    \question Problem 6
+    \begin{solution}
+        \begin{align*}
+            P(B|W_3, W_5, W_9) & = \frac{P(W_3, W_5, W_9|B)P(B)}{P(W_3, W_5, W_9)} \\
+            & = \frac{P(W_3, W_5, W_9|B)P(B)}{P(W_3, W_5, W_9|B)P(B) + P(W_3, W_5, W_9|B^C)P(B^C)} \\
+            & = \frac{p_3p_5p_9p}{p_3p_5p_9p + r_3r_5r_9(1-p)}
+        \end{align*}
+    \end{solution}
+\end{questions}
+
+\end{document}

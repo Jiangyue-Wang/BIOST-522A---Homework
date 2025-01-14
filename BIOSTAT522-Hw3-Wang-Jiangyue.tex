@@ -1,0 +1,252 @@
+\documentclass[12pt,letterpaper, onecolumn]{exam}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[lmargin=71pt, tmargin=1.2in]{geometry}  %For centering solution box
+\lhead{\\}
+\rhead{\\}
+% \chead{\hline} % Un-comment to draw line below header
+\thispagestyle{empty}   %For removing header/footer from page 1
+
+\begin{document}
+
+\begingroup  
+    \centering
+    \LARGE BIOSTAT 522A\\
+    \LARGE Homework 3\\[0.5em]
+    \large \today\\[0.5em]
+    \large Jiangyue Wang\par
+    \large jyuewang@uw.edu\par
+    \large QERM, College of the Environment\par
+\endgroup
+\rule{\textwidth}{0.4pt}
+\pointsdroppedatright   %Self-explanatory
+\printanswers
+\renewcommand{\solutiontitle}{\noindent\textbf{Ans:}\enspace}   %Replace "Ans:" with starting keyword in solution box
+\begin{questions}
+    \question Problem 1
+    \begin{solution}
+    \begin{enumerate}
+        \item $cov(b,Y) = E(bY) - E(b)E(Y) = bE(Y) - bE(Y) = 0$ \\
+        Thus, $corr(b,Y) = \frac{cov(b,Y)}{\sigma_b\sigma_Y} = 0$
+        \item \begin{align*}
+             cov(aX_1+bX_2, cY_1+dY_2)& = E((aX_1+bX_2)cY_1+dY_2)-E(aX_1+bX_2)E(cY_1+dY_2) \\
+            & = E(acX_1Y_1)+E(bcX_2Y_1)+E(adX_1Y_2)+E(bdX_2Y_2) - \\
+            & acE(X_1Y_1)-bcE(X_2Y_1)-adE(X_1Y_2)-bdE(X_2Y_2) \\
+            & = acE(X_1Y_1)-acE(X_1Y_1)+bcE(X_2Y_1)-bcE(X_2Y_1)+ \\ 
+            & adE(X_1Y_2)-adE(X_1Y_2)+bdE(X_2Y_2)-bdE(X_2Y_2) \\
+            & = ac \times cov(X_1,Y_1) + bc \times cov(X_2,Y_1) + \\
+            & ad \times cov(X_1,Y_2) + bd \times cov(X_2,Y_2)
+        \end{align*}
+        \item $cov(X,Y) = E(XY)-E(X)E(Y)$, as $X$ and $Y$ are independent, $E(XY) = E(X)E(Y)$. Thus, $cov(X,Y) = 0$, $corr(b,Y) = \frac{cov(X,Y)}{\sigma_X\sigma_Y} = 0$.
+    \end{enumerate}
+    
+    \end{solution}
+
+    \question Problem 2
+    \begin{solution}
+    \begin{enumerate}
+        \item The expected number of medical emergencies for a randomly chosen student is:
+        \begin{align*}
+            E(N) &= P(\text{Prone}) \cdot E(N \mid \text{Prone}) + P(\text{Not Prone}) \cdot E(N \mid \text{Not Prone}) \\
+                & = (0.1)(2) + (0.9)(0.2) = 0.2 + 0.18 = 0.38
+        \end{align*}
+        The cost per emergency is \$2000, so the expected annual expenditure is:
+        \[
+        E(\text{Cost}) = 2000 \cdot E(N) = 2000 \cdot 0.38 = 760 \, \text{(dollars)}.
+        \]
+        \item \begin{align*}
+        Var(N \mid \text{Prone}) =& \lambda_1 = 2 \\
+        Var(N \mid \text{Not Prone}) =& \lambda_2 = 0.2 \\
+        Var(N) =& Var(N \mid \text{Prone})P(\text{Prone}) + Var(N \mid \text{Not Prone})P(\text{Not Prone}) + \\
+        & (E(N|\text{Prone})-E(N))^2P(\text{Prone}) + \\
+        & (E(N|\text{Not Prone})-E(N))^2P(\text{Not Prone}) \\
+        =& 0.6716 \\
+        SE(\text{expenditure}) =& \sqrt{0.6716} \times 2000 = 1639 \\
+        \end{align*}   
+        \item $$P(N=0) = P(N=0|\text{Prone})P(\text{Prone}) + P(N=0|\text{Not Prone})P(\text{Not Prone}) = 0.7504 $$
+        \item $$P(N=1) = P(N=1|\text{Prone})P(\text{Prone}) + P(N=1|\text{Not Prone})P(\text{Not Prone}) = 0.1744 $$
+        Thus, $$P(N \geq 2) = 1- P(N=0) - P(N=1) = 0.0752$$
+    \end{enumerate}
+    \end{solution}
+    
+    \question Problem 3
+    \begin{solution}
+    \begin{enumerate}
+        \item (a) \begin{align*}
+            M_t(W) = M_t(SZ) & = E(e^{tSZ}) \\
+            & = E(e^{tSZ}|S=1)P(S=1)+E(e^{tSZ}|S=-1)P(S=-1) \\
+            & = e^{\frac{t^2}{2}} \cdot 0.5 + e^{\frac{t^2}{2}} \cdot 0.5 \\
+            & = e^{\frac{t^2}{2}}
+        \end{align*}
+        $M_t(W)$ is the same as $M_t(Z)$ for $Z \sim N(0,1)$. Thus, $W \sim N(0,1)$ \\
+        (b) If $(Z,W)$ is a bivariate normal, the $W+Z$ should also be normal. $$P(W+Z = 0) = P(S = -1) = 0.5$$ Thus, $W+Z$ is not normal, so $(Z,W)$ is not a bivariate normal.\\
+        \item (a) $X \sim N(1,1)$, $Y \sim N(2,81)$, $cov(X,Y) = \rho \sigma_X\sigma_Y = -4.5$. Let $Z=X-Y$, $\mu_Z = \mu_X-\mu_Y = -1$, $Var(Z) = 1^2+9^2-2\times(-4.5) = 91$. Let $W \sim N(0,1)$.
+        \begin{align*}
+            P(X>Y) = P(X-Y>0) & = P(Z>0) \\
+            & = P(\frac{Z-\mu_Z}{\sigma_Z}>\frac{0-\mu_Z}{\sigma_Z}) \\
+            & = P(W>\frac{1}{\sqrt{91}})  = 0.4582
+        \end{align*}
+        (b) Now we let $Z = 5X-2Y$, $\mu_Z = 5\mu_X-2\mu_Y = 1$, $Var(Z) = 5^2+(2\times9)^2-2\times5\times2\times(-4.5) = 439$
+        \begin{align*}
+            P(5X<2Y) = P(5X-2Y<0) & = P(Z<0) \\
+            & = P(\frac{Z-\mu_Z}{\sigma_Z}<\frac{0-\mu_Z}{\sigma_Z}) \\
+            & = P(W<\frac{-1}{\sqrt{439}})  = 0.4810
+        \end{align*}
+        (c) $$cov(Y-cX,X) = 0$$ $$cov(Y,X)-c\cdot cov(X,X) = 0$$  $$\rho\sigma_X\sigma_Y-c\sigma_X^2 = 0$$ $$c = \frac{\rho\sigma_Y}{\sigma_X}$$
+        \item (a) No. We can show that $P(X+Y+SX+SY = 0) = P(S=-1) = 0.5$ which shows that $X+Y+SX+SY$ is not normal. Thus $(X,Y, SX+SY)$ is not multivariate normal.
+        (b) Yes. $$p(SX,SY) = p(SX,SY|S=1)P(S=1)+p(SX,SY|S=-1)P(S=-1)$$
+         $$= p(X,Y)\cdot 0.5 + p(-X,-Y) \cdot 0.5$$ As $X$ and $Y$ are symmetric, $p(X,Y) = p(-X,-Y)$. Thus, $p(SX,SY) = p(X,Y)$ which is a bivariate normal distribution.
+        \item (a) For one single child and the parents, there is $A_3^3 = 6$ orders to order their height, 2 of these orders have child the tallest (i.e., $Child>Mother>Father$, $Child>Father>Mother$). Thus, $P(Y_j>X_1, Y_j>X_2) = \frac{1}{3}$. $E(N) = \sum_{j=1}^6 P(Y_j>X_1, Y_j>X_2) \cdot 1 = 2$. \\
+        (b) $P(Y_j>X_1) = P(Y_j-X_1 > 0 )$.\\
+        Let $Z_j = Y_j - X_1$, then we have $\mu_{Z_j} = \mu_{Y_j} - \mu_{X_1} = 0$, \\
+        $Var(Z_j) = Var(Y_j) + Var(X_1) - 2\rho\sigma_{Y_j}\sigma_{X_i} = \sigma^2$. \\
+        Thus, $P(Z_j>0) = P(\frac{Z_j-0}{\sigma^2} > \frac{0-0}{\sigma^2}) = 0.5$. $E(N) = \sum_{j=1}^6 P(Z_j>0) \cdot 1 = 3$
+    \end{enumerate}
+    \end{solution}
+    \question Problem 4
+    \begin{solution}
+    \begin{enumerate}
+        \item Each step contributes to $X_n$ or $Y_n$ based on its direction:
+        \[
+        X_n = \sum_{i=1}^n (J_{E,i} - J_{W,i}), \quad Y_n = \sum_{i=1}^n (J_{N,i} - J_{S,i}).
+        \]
+        Here:
+        \[
+        \mathbf{\alpha} = 
+        \begin{bmatrix}
+        1 \\ -1 \\ 0 \\ 0
+        \end{bmatrix} \quad \text{for } X_n, \quad 
+        \mathbf{\beta} = 
+        \begin{bmatrix}
+        0 \\ 0 \\ 1 \\ -1
+        \end{bmatrix} \quad \text{for } Y_n.
+        \]
+        And thus we will get \[
+        X_n = \sum_{i=1}^n (\mathbf{\alpha'}\mathbf{J_i}), \quad Y_n = \sum_{i=1}^n (\mathbf{\beta'}\mathbf{J_i}).
+        \]
+        \item Since the steps are independent and symmetric,
+        \[
+        E(X_n) = n \cdot E(J_{E,i} - J_{W,i}) = n \cdot (0) = 0,
+        \]
+        and similarly:
+        \[
+        E(Y_n) = 0.
+        \]
+        \item No, they are not independent. Suppose we have a extreme case that $X_n = n$, then $P(Y_n = 0|X_n = n) = 1$.
+        \item We can write $X_n = \sum_{i=1}^n Z_i$, $Z_i = 1$ if moving eastward, $Z_i = -1$ if moving westward, 0 otherwise. Similarly for $Y_n  = \sum_{j=1}^n W_j$. $Z_i$ is independent of $W_j$ when $i\neq j$. But they are fully dependent when $i=j$ because if $Z_i = 1 or -1$ then $W_i = 0$ and vice versa. Thus, $Cov(Z_i, W_i) = E(Z_i W_i)-E(Z_i)E(W_i) = 0$.
+        \item  As $Z_i^2 \sim Bern (0.5)$,
+        $$E(R_n^2) = E(X_n^2)+E(Y_n^2) = 2E(X_n^2) = 2nE(Z_i^2) = n$$
+        
+        \end{enumerate}
+    
+
+    \end{solution}
+    \question Problem 5
+    \begin{solution}
+    \begin{enumerate}
+        \item \[P(L \geq l) = P(U_1 \geq l, U_2 \geq l, U_3 \geq l) = P(U_1 \geq l)^3 = (1 - l)^3, \quad l \in [0, 1].\]
+        Thus, the CDF of $L$ is:
+        \[
+        P(L \leq l) = 1 - P(L \geq l) = 1 - (1 - l)^3, \quad l \in [0, 1].
+        \]
+        \[
+        f_L(l) = \frac{d}{dl}\left[1 - (1 - l)^3\right] = 3(1 - l)^2, \quad l \in [0, 1].
+        \]
+        \item \[
+        P(M \leq m) = P(U_1 \leq m, U_2 \leq m, U_3 \leq m) = P(U_1 \leq m)^3 = m^3, \quad m \in [0, 1].
+        \]
+        \[
+        f_M(m) = \frac{d}{dm}[m^3] = 3m^2, \quad m \in [0, 1].
+        \]
+        \item \[
+        P(L \geq l, M \leq m) = 
+        \begin{cases} 
+        0, & \text{if } l > m, \\
+        P(U_1, U_2, U_3 \in [l, m]) = (m - l)^3, & \text{if } 0 \leq l \leq m \leq 1.
+        \end{cases}
+        \]
+        \[
+        P(L \leq l, M \leq m) = 
+        \begin{cases} 
+        m^3, & \text{if } l > m, \\
+        l^3+3m^2l-3ml^2, & \text{if } 0 \leq l \leq m \leq 1.
+        \end{cases}
+        \]
+        \item \begin{align*}
+            f_{L,M}(l, m) & = \frac{\partial^2}{\partial l \partial m} P(L \leq l, M \leq m) \\
+            & = \begin{cases} 
+        0, & \text{if } l > m, \\
+        6m-6l, & \text{if } 0 \leq l \leq m \leq 1.
+        \end{cases}
+        \end{align*}
+        \item \[
+    f_{M|L}(m|l) = \frac{6(m - l)}{3(1 - l)^2} = \frac{2(m - l)}{(1 - l)^2}, \quad 0 \leq l \leq m \leq 1.
+    \]
+    \end{enumerate}
+    \end{solution}
+    \question Problem 6
+    \begin{solution}
+    \begin{enumerate}
+        \item Let $X$ and $Y$ be independent exponential random variables with rate parameter $\lambda$. We define \[ T = X + Y, \quad W = \frac{X}{Y}.\] We will use $\lambda$ for exponential distribution next, and will substitute into $\beta$ ($\lambda = \frac{1}{\beta}$).
+        We solve for $X$ and $Y$ in terms of $T$ and $W$: \[X = W \cdot Y, \quad T = W \cdot Y + Y = (W + 1) Y.\]
+        Thus: \[ Y = \frac{T}{W + 1}, \quad X = W \cdot Y = \frac{W \cdot T}{W + 1}. \]
+        The Jacobian matrix is: \[ J = 
+        \begin{pmatrix} 
+            \frac{\partial X}{\partial T} & \frac{\partial X}{\partial W} \\
+            \frac{\partial Y}{\partial T} & \frac{\partial Y}{\partial W} 
+        \end{pmatrix}.
+        \]
+        We compute the partial derivatives:
+        \begin{itemize}
+            \item $\frac{\partial X}{\partial T} = \frac{W}{W + 1}, \quad \frac{\partial X}{\partial W} = \frac{T}{(W + 1)^2},$
+            \item $\frac{\partial Y}{\partial T} = \frac{1}{W + 1}, \quad \frac{\partial Y}{\partial W} = -\frac{T}{(W + 1)^2}.$
+        \end{itemize}
+        Thus, the Jacobian matrix is:
+        \[
+        J = \begin{pmatrix} 
+        \frac{W}{W + 1} & \frac{T}{(W + 1)^2} \\
+        \frac{1}{W + 1} & -\frac{T}{(W + 1)^2}
+        \end{pmatrix}.
+        \]
+        The determinant of $J$ is:
+        \[
+        \text{det}(J) = \left( \frac{W}{W + 1} \right) \left( -\frac{T}{(W + 1)^2} \right) - \left( \frac{T}{(W + 1)^2} \right) \left( \frac{1}{W + 1} \right).
+        \]
+        Simplify:
+        \[
+        \text{det}(J) = -\frac{W T}{(W + 1)^3} - \frac{T}{(W + 1)^3} = -\frac{T(W + 1)}{(W + 1)^3} = -\frac{T}{(W + 1)^2}.
+        \]
+
+        Thus, the absolute value of the determinant is:
+        \[
+        |\text{det}(J)| = \frac{T}{(W + 1)^2}.
+        \]
+
+        The joint density of $X$ and $Y$ is: 
+        \begin{align*}
+            & f_{X,Y}(x, y) = \lambda e^{-\lambda x} \cdot \lambda e^{-\lambda y} = \lambda^2 e^{-\lambda(x + y)} \\
+            & f_{X,Y}\left( \frac{W \cdot T}{W + 1}, \frac{T}{W + 1} \right) = \lambda^2 e^{-\lambda T}\\
+            & f_{T,W}(t, w) = \lambda^2 e^{-\lambda T} \cdot \frac{T}{(W + 1)^2}\\
+            & = \lambda^2 e^{-\lambda T} \cdot \frac{T}{(W + 1)^2} \\
+            & = \frac{1}{\beta^2} e^{-\frac{T}{\beta}} \cdot \frac{T}{(W + 1)^2}, \quad t \geq 0, w \geq 0
+        \end{align*}
+        For their relationship, $T$ and $W$ are independent because: 
+        \begin{align*}
+            f_{T,W}(t, w) & = \frac{1}{\beta^2} e^{-\frac{T}{\beta}} \cdot \frac{T}{(W + 1)^2} \\
+            & = (\frac{1}{\beta^2}T e^{-\frac{T}{\beta}})(\frac{1}{(W+1)^2}) \\
+            & = f_T(t) \cdot f_W(w)
+        \end{align*}
+        \item 
+        \begin{align*}
+            f_W(w) & = \int_0^\infty f_{T,W}(t, w) \, dt \\
+            & = \int_0^\infty \lambda^2 e^{-\lambda t} \cdot \frac{t}{(w + 1)^2} \, dt \\
+            & = \int_0^\infty t e^{-\lambda t} \, dt = \frac{1}{\lambda^2} \\
+            & = \frac{\lambda^2}{(w + 1)^2} \cdot \frac{1}{\lambda^2} = \frac{1}{(w + 1)^2}
+        \end{align*}
+
+    \end{enumerate}
+    \end{solution}
+    
+\end{questions}
+\end{document}
